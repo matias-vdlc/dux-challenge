@@ -1,22 +1,19 @@
-import { GetServerSideProps } from 'next'
 import { FC } from 'react'
+import { GetServerSideProps } from 'next'
+import { fetchUsers } from '../../api'
+import { User } from '../../interface'
+import { UsersTable } from '../../views'
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const res = await fetch(
-    'https://staging.duxsoftware.com.ar/api/personal?sector=2000&_limit=10&_page=1',
-  )
-  const users = await res.json()
-
+  const users: User[] = await fetchUsers(2000, 10, 1)
   return { props: { users } }
 }
-
 interface UsersPageProps {
-  users: any[]
+  users: User[]
 }
 
 const UsersPage: FC<UsersPageProps> = ({ users }) => {
-  console.log(users)
-  return <div>{/* <UsersTable users={users} /> */}users</div>
+  return <UsersTable users={users} />
 }
 
 export default UsersPage
