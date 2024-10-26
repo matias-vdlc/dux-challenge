@@ -1,0 +1,1 @@
+export { DuxLogo } from './DuxLogo'

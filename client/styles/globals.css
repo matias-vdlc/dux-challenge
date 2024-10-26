@@ -2,12 +2,21 @@
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+}
+
+body {
+  height: 100%;
   font-family: 'Inter', sans-serif;
 }
 
-:root {
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* Sidebar styles */
+.p-megamenu .p-menuitem-icon {
+  color: white;
+}
+
+.p-megamenu-root-list {
+  display: flex;
+  padding: 1.5rem 0;
+  gap: 1rem;
+  width: 65px;
 }

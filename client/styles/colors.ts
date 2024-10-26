@@ -1,0 +1,8 @@
+export const colors = {
+  PRIMARY: '#0763E7',
+  TERTIARY: '#64748B',
+  HEADERS: '#4B5563',
+  BACKGROUND: '#F2F2F2',
+  BUTTON: '#2563EB',
+  SIDEBAR: '#2D3E50',
+}
