@@ -1,5 +1,8 @@
-body {
+* {
   font-family: 'Inter', sans-serif;
+}
+
+body {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -15,4 +18,11 @@ body {
   padding: 1.5rem 0;
   gap: 1rem;
   width: 65px;
+}
+
+:root {
+  --text-color: #374151;
+  --text-color-secondary: #4b5563;
+  --border-radius: 6px;
+  --primary-color: #0763e7;
 }

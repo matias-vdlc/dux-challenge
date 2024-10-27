@@ -2,14 +2,39 @@ import { FC, useEffect, useState } from 'react'
 import { DataTable } from 'primereact/datatable'
 import { Column } from 'primereact/column'
 import { Paginator } from 'primereact/paginator'
+import { TableHeader } from './tableHeader'
 import { Button } from 'primereact/button'
-import { InputText } from 'primereact/inputtext'
 
-import { IconField } from 'primereact/iconfield'
-import { InputIcon } from 'primereact/inputicon'
+const headerButtons = [
+  {
+    label: 'Nuevo Usuario',
+    icon: 'pi pi-plus',
+    className: 'gap-2 p-2 border-round-md',
+    onClick: () => {},
+  },
+]
 
-export const TableComponent: FC<{ data: any }> = ({ data }) => {
+const rowActions = [
+  {
+    ['aria-label']: 'Editar',
+    icon: 'pi pi-pencil',
+    className: 'gap-2 p-2 border-round-md',
+    onClick: () => {},
+  },
+  {
+    ['aria-label']: 'Eliminar',
+    icon: 'pi pi-trash',
+    className: 'gap-2 p-2 border-round-md',
+    onClick: () => {},
+  },
+]
+
+export const TableComponent: FC<{ data: any; header: string }> = ({
+  data,
+  header,
+}) => {
   const [content, setContent] = useState(data || [])
+  const [globalFilter, setGlobalFilter] = useState<string | null>(null)
 
   useEffect(() => {
     if (!data) return
@@ -20,87 +45,69 @@ export const TableComponent: FC<{ data: any }> = ({ data }) => {
   console.log({ data })
   // return <div>TableComponent</div>
 
+  const actionBodyTemplate = (rowData: any) => {
+    return (
+      <div className='flex gap-2'>
+        {rowActions.map((action) => (
+          <Button
+            key={`id-${rowData.id}`}
+            icon={action.icon}
+            aria-label={action['aria-label']}
+            rounded
+            text
+            onClick={action.onClick}
+          />
+        ))}
+      </div>
+    )
+  }
+
   return (
     <div
       className='px-4 py-3 flex flex-column  justify-content-between'
       style={{ height: '100%' }}
     >
-      <div>
-        <div className='flex align-items-center justify-content-between mb-4'>
-          <div className='text-3xl font-bold'>Usuarios</div>
-          {/* // TODO: add button functionality */}
-          <Button
-            label='Crear usuario'
-            icon='pi pi-plus'
-            className='gap-2 p-2 '
-            onClick={() => {}}
-          />
-        </div>
-
-        {/* // TODO: create filters */}
-        <div className='flex justify-content-between'>
-          <div className='flex'>
-            <IconField iconPosition='left'>
-              <InputIcon className='pi pi-search' />
-              <InputText placeholder='Search' />
-            </IconField>
-          </div>
-          <div className='mt-3 md:mt-0 flex justify-content-end'>
-            <Button
-              icon='pi pi-plus'
-              className='mr-2 p-button-rounded'
-              onClick={() => {}}
-              tooltip='New'
-              tooltipOptions={{ position: 'bottom' }}
-            />
-            <Button
-              icon='pi pi-trash'
-              className='p-button-danger mr-2 p-button-rounded'
-              onClick={() => {}}
-              disabled={false}
-              tooltip='Delete'
-              tooltipOptions={{ position: 'bottom' }}
-            />
-          </div>
-        </div>
+      <div className='flex flex-column gap-2'>
+        <TableHeader
+          header={header}
+          headerActions={headerButtons}
+          onSearch={setGlobalFilter}
+        />
 
         <DataTable
           value={content}
-          // selection={selectedProducts}
-          // onSelectionChange={(e) => setSelectedProducts(e.value)}
           dataKey='id'
-          // paginator
           rows={5}
-          // rowsPerPageOptions={[1, 10]}
-          // paginatorTemplate='FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown'
-          // globalFilter={globalFilter}
-          // header={header}
-          className='flex flex-column gap-4'
+          globalFilter={globalFilter}
+          className='p-datatable-sm'
         >
           <Column
             field='id'
             header='ID'
-            sortable
-            style={{ minWidth: '12rem', height: '2rem' }}
+            className='text-sm line-height-1 text-color-secondary capitalize'
           />
           <Column
             field='usuario'
             header='Nombre'
             sortable
-            style={{ minWidth: '12rem' }}
+            className='text-sm text-primary font-bold underline line-height-1'
           />
 
           <Column
             field='estado'
             header='Estado'
             sortable
-            style={{ minWidth: '12rem' }}
+            className='text-sm line-height-1 text-color-secondary capitalize'
           />
           <Column
             field='sector'
             header='Name'
-            sortable
-            style={{ minWidth: '12rem' }}
+            className='text-sm line-height-1 text-color-secondary capitalize'
+          />
+          <Column
+            body={actionBodyTemplate}
+            exportable={false}
+            className='flex justify-content-center'
           />
         </DataTable>
       </div>
