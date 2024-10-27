@@ -5,7 +5,7 @@ import { User } from '../../interface'
 import { SpinnerComponent } from '../../components/spinnerComponent'
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const users: User[] = await fetchUsers(2000, 10, 1)
+  const users: User[] = await fetchUsers(2000, 5, 1)
   return { props: { users } }
 }
 

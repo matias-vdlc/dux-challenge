@@ -78,8 +78,10 @@ export const TableComponent: FC<{ data: any; header: string }> = ({
           value={content}
           dataKey='id'
           rows={5}
+          globalFilterFields={['usuario', 'estado']}
           globalFilter={globalFilter}
           className='p-datatable-sm'
+          removableSort
         >
           <Column
             field='id'
@@ -101,7 +103,7 @@ export const TableComponent: FC<{ data: any; header: string }> = ({
           />
           <Column
             field='sector'
-            header='Name'
+            header='Sector'
             className='text-sm line-height-1 text-color-secondary capitalize'
           />
           <Column
@@ -275,7 +277,7 @@ export const TableComponent: FC<{ data: any; header: string }> = ({
           first={1}
           rows={10}
           totalRecords={120}
-          rowsPerPageOptions={[10, 20, 30]}
+          rowsPerPageOptions={[5, 10, 25, 50]}
           onPageChange={() => {}}
         />
       </div>
