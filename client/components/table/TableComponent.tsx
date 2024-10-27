@@ -21,10 +21,13 @@ export const TableComponent: FC<{ data: any }> = ({ data }) => {
   // return <div>TableComponent</div>
 
   return (
-    <div className='surface-card p-4 flex flex-column h-full justify-content-between '>
+    <div
+      className='px-4 py-3 flex flex-column  justify-content-between'
+      style={{ height: '100%' }}
+    >
       <div>
         <div className='flex align-items-center justify-content-between mb-4'>
-          <div className='text-3xl text-800 font-bold'>Usuarios</div>
+          <div className='text-3xl font-bold'>Usuarios</div>
           {/* // TODO: add button functionality */}
           <Button
             label='Crear usuario'
@@ -33,7 +36,6 @@ export const TableComponent: FC<{ data: any }> = ({ data }) => {
             onClick={() => {}}
           />
         </div>
-
 
         {/* // TODO: create filters */}
         <div className='flex justify-content-between'>

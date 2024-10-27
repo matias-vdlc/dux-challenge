@@ -10,7 +10,7 @@ export const TopbarComponent: FC<PropsWithChildren> = ({ children }) => {
   )
 
   return (
-    <div style={{ height: '100vh' }}>
+    <>
       <Menubar
         model={[]}
         start={start}
@@ -24,6 +24,6 @@ export const TopbarComponent: FC<PropsWithChildren> = ({ children }) => {
       <div style={{ display: 'flex', height: 'calc(100vh - 45px)' }}>
         {children}
       </div>
-    </div>
+    </>
   )
 }

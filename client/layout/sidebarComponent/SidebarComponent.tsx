@@ -6,7 +6,7 @@ import { colors } from '../../styles/colors'
 const createMenuItems = (count: number): MenuItem[] => {
   return Array.from({ length: count }, () => ({
     icon: 'pi pi-box',
-    className: 'flex align-items-center justify-content-center',
+    className: 'flex align-items-center justify-content-center ml-2',
   }))
 }
 
@@ -17,8 +17,8 @@ export const SidebarComponent: FC = () => {
     <MegaMenu
       model={items}
       orientation='vertical'
-      className='h-full border-none border-noround'
-      style={{ width: '65px', backgroundColor: colors.SIDEBAR }}
+      className='border-none border-noround'
+      style={{ height: '100%', width: '65px', backgroundColor: colors.SIDEBAR }}
     />
   )
 }
