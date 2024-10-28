@@ -11,15 +11,11 @@ export const useGetUsers = () => {
     sector = 2000,
     page = 1,
     limit = 5,
-    searchInput = '',
-    query = '',
   }: Partial<TableParams>) => {
     const params = {
       sector,
       _page: page,
       _limit: limit,
-      searchInput,
-      query,
     }
 
     setIsLoading(true)

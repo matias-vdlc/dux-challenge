@@ -11,6 +11,10 @@ import { Dialog } from 'primereact/dialog'
 import { Button } from 'primereact/button'
 import { colors } from '../../styles/colors'
 import { InputText } from 'primereact/inputtext'
+import {
+  InputNumber,
+  InputNumberValueChangeEvent,
+} from 'primereact/inputnumber'
 import { Dropdown } from 'primereact/dropdown'
 import { status, paginatorDefaulState } from './constants'
 
@@ -79,14 +83,19 @@ export const UsersTable = ({ users }: { users: User[] }) => {
   const handleSubmitModal = () => {
     if (!selectedUser) return
 
+    const cleanedUser = {
+      ...selectedUser,
+      usuario: selectedUser.usuario.toUpperCase(),
+    }
+
     if (isEdit) {
       const updatedFields: Partial<User> = {}
 
       // Compare each field to find changes
-      Object.keys(selectedUser).forEach((key) => {
+      Object.keys(cleanedUser).forEach((key) => {
         const k = key as keyof User
-        if (selectedUser[k] !== initialUserRef.current?.[k]) {
-          updatedFields[k] = selectedUser[k]
+        if (cleanedUser[k] !== initialUserRef.current?.[k]) {
+          updatedFields[k] = cleanedUser[k]
         }
       })
 
@@ -101,14 +110,36 @@ export const UsersTable = ({ users }: { users: User[] }) => {
         return
       }
 
-      userCreateHandler(selectedUser)
+      userCreateHandler(cleanedUser)
     }
     setShowCreateDialog(false)
     updateTableData()
   }
 
-  const onInputChange = (value: string, name: keyof User) => {
-    setSelectedUser({ ...selectedUser, [name]: value } as User)
+  const onInputChange = (value: string | number, name: keyof User) => {
+    if (name === 'usuario') {
+      let cleanedValue = (value as string).trim()
+
+      if (cleanedValue.length > 50) {
+        cleanedValue = cleanedValue.slice(0, 50)
+      }
+
+      setSelectedUser(
+        (prevUser) =>
+          ({
+            ...prevUser,
+            [name]: cleanedValue,
+          }) as User,
+      )
+    } else {
+      setSelectedUser(
+        (prevUser) =>
+          ({
+            ...prevUser,
+            [name]: value,
+          }) as User,
+      )
+    }
   }
 
   const updateTableData = () => {
@@ -193,6 +224,8 @@ export const UsersTable = ({ users }: { users: User[] }) => {
     </div>
   )
 
+  const validateId = (value: string) => {}
+
   // TODO: validate paginator
   useEffect(() => {
     if (!paginator.page || !paginator.rows) return
@@ -216,6 +249,7 @@ export const UsersTable = ({ users }: { users: User[] }) => {
         paginator={paginator}
         setPaginator={setPaginator}
         isLoading={isGetUsersLoading}
+        handleUpdateData={updateTableData}
       />
       <Dialog
         visible={showCreateDialog}
@@ -231,12 +265,17 @@ export const UsersTable = ({ users }: { users: User[] }) => {
             <label htmlFor='id' className='mb-2 font-semibold'>
               id
             </label>
-            <InputText
+            <InputNumber
               id='id'
-              value={selectedUser?.id?.toString() || ''}
-              onChange={(e) => onInputChange(e.target.value, 'id')}
+              value={selectedUser?.id || 0}
+              onValueChange={(e: InputNumberValueChangeEvent) =>
+                onInputChange(e.value ?? 0, 'id')
+              }
               required
+              useGrouping={false}
               autoFocus
+              min={0}
+              max={999999}
             />
           </div>
           <div className='field'>
@@ -259,7 +298,7 @@ export const UsersTable = ({ users }: { users: User[] }) => {
               value={selectedUser?.estado || ''}
               onChange={(e) => onInputChange(e.target.value, 'estado')}
               options={status}
-              optionLabel='status'
+              optionLabel='estado'
               placeholder='Selecciona el Estado'
               className='w-full border-round-md'
             />
@@ -268,12 +307,17 @@ export const UsersTable = ({ users }: { users: User[] }) => {
             <label htmlFor='sector' className='mb-2 font-semibold'>
               Sector
             </label>
-            <InputText
+            <InputNumber
               id='sector'
-              value={selectedUser?.sector?.toString() || ''}
-              onChange={(e) => onInputChange(e.target.value, 'sector')}
+              value={selectedUser?.sector || 0}
+              onValueChange={(e: InputNumberValueChangeEvent) =>
+                onInputChange(e.value ?? 0, 'sector')
+              }
               required
+              useGrouping={false}
               autoFocus
+              min={0}
+              max={9999}
             />
           </div>
         </div>

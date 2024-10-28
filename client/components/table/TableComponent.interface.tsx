@@ -38,4 +38,5 @@ export type TableComponentProps = {
   setPaginator: (event: any) => void
   isLoading?: boolean
   handleSearch: (params: any) => void
+  handleUpdateData: (params: any) => void
 }

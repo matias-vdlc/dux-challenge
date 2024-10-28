@@ -16,6 +16,7 @@ export const TableComponent: FC<TableComponentProps> = ({
   setPaginator,
   isLoading = false,
   handleSearch = () => {},
+  handleUpdateData = () => {},
 }) => {
   const [globalFilter, setGlobalFilter] = useState<string | null>(null)
   const [content, setContent] = useState(data)
@@ -57,6 +58,10 @@ export const TableComponent: FC<TableComponentProps> = ({
   const handleSearchFilters = (params: { [key: string]: string }) => {
     const { key, value } = params
     setGlobalFilter(value)
+    if (!value) {
+      handleUpdateData({})
+      return
+    }
     handleSearch({
       searchIn: key,
       query: value,
