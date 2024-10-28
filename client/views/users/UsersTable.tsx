@@ -209,12 +209,6 @@ export const UsersTable = ({ users }: { users: User[] }) => {
     }
   }, [updatedUserData])
 
-  // useEffect(() => {
-  //   if (userCreateLoading || userUpdateLoading || userDeleteLoading) return
-  //   userGetHandler({ sector: 2000, page: 1, limit: 5 })
-  //   setPaginator(paginatorDefaulState)
-  // }, [userDeleteLoading, userCreateLoading, userUpdateLoading])
-
   return (
     <>
       <TableComponent

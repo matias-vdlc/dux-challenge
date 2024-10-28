@@ -4,39 +4,7 @@ import { Column } from 'primereact/column'
 import { Paginator, PaginatorPageChangeEvent } from 'primereact/paginator'
 import { TableHeader } from './tableHeader'
 import { Button } from 'primereact/button'
-
-// TODO: type correctly
-type TableComponentProps = {
-  data: Record<string, any>[]
-  title: string
-  tableHeaders: {
-    field: string
-    header: string
-    sortable?: boolean
-    className: string
-    style?: Record<string, any>
-  }[]
-  headerButtons: {
-    label: string
-    icon: string
-    className: string
-    onClick: () => void
-  }[]
-  rowActions?: {
-    'aria-label': string
-    icon: string
-    className: string
-    onClick: (rowData: any) => void
-  }[]
-  paginator: {
-    first: number
-    rows: number
-    page: number
-    pageCount: number
-    totalRecords: number
-  }
-  setPaginator: (event: any) => void
-}
+import { TableComponentProps } from './TableComponent.interface'
 
 export const TableComponent: FC<TableComponentProps> = ({
   data,
@@ -62,7 +30,6 @@ export const TableComponent: FC<TableComponentProps> = ({
         first: event.first,
         rows: event.rows,
         page: event.page,
-        // pageCount: event.pageCount,
       }),
     )
   }
@@ -126,8 +93,6 @@ export const TableComponent: FC<TableComponentProps> = ({
           )}
         </DataTable>
       </div>
-
-      {/* // TODO: make paginator component */}
       <div>
         <Paginator
           first={paginator?.first}
