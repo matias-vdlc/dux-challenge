@@ -1,7 +1,7 @@
 export type TableHeaderProps = {
   title: string
   headerActions: HeaderActionsType[]
-  onSearch: (value: string) => void
+  onSearch: (params: any) => void
 }
 
 export type HeaderActionsType = {

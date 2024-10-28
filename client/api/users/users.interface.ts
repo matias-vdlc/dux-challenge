@@ -2,6 +2,8 @@ export type TableParams = {
   sector: number
   limit: number
   page: number
+  searchInput: string
+  query: string
 }
 
 export type User = {

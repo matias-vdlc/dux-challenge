@@ -1,5 +1,4 @@
-import { useEffect, useState, useRef } from 'react'
-import { TableComponent } from '../../components/table'
+import { useEffect, useState, useRef, lazy, Suspense } from 'react'
 import { User } from '../../interface'
 import {
   useCreateUser,
@@ -15,8 +14,13 @@ import { InputText } from 'primereact/inputtext'
 import { Dropdown } from 'primereact/dropdown'
 import { status, paginatorDefaulState } from './constants'
 
+const Table = lazy(() =>
+  import('../../components/table').then((module) => ({
+    default: module.TableComponent,
+  })),
+)
+
 export const UsersTable = ({ users }: { users: User[] }) => {
-  const [data, setData] = useState<User[]>(users)
   const [selectedUser, setSelectedUser] = useState<User | null>(null)
   const [paginator, setPaginator] = useState(paginatorDefaulState)
   const [showDeleteDialog, setShowDeleteDialog] = useState(false)
@@ -25,17 +29,15 @@ export const UsersTable = ({ users }: { users: User[] }) => {
   const [isFormValid, setIsFormValid] = useState(true)
   const initialUserRef = useRef<User | null>(null)
 
-  const { handler: userCreateHandler, isLoading: userCreateLoading } =
-    useCreateUser()
+  const { handler: userCreateHandler } = useCreateUser()
   const {
     handler: userGetHandler,
+    handleSearch: handleSearchUsers,
     data: updatedUserData,
-    isLoading: userGetLoading,
+    isLoading: isGetUsersLoading,
   } = useGetUsers()
-  const { handler: userUpdateHandler, isLoading: userUpdateLoading } =
-    useUpdateUser()
-  const { handler: userDeleteHandler, isLoading: userDeleteLoading } =
-    useDeleteUser()
+  const { handler: userUpdateHandler } = useUpdateUser()
+  const { handler: userDeleteHandler } = useDeleteUser()
 
   const handleDeleteUserAction = (user: User) => {
     setShowDeleteDialog(true)
@@ -200,25 +202,20 @@ export const UsersTable = ({ users }: { users: User[] }) => {
       limit: paginator.rows,
     }
     userGetHandler(params)
-  }, [paginator.page, paginator.rows])
-
-  useEffect(() => {
-    if (userDeleteLoading) return
-    if (updatedUserData) {
-      setData(updatedUserData)
-    }
-  }, [updatedUserData])
+  }, [paginator.page, paginator.rows, paginator.first])
 
   return (
     <>
-      <TableComponent
-        data={data}
+      <Table
+        data={updatedUserData || users}
         title='Usuarios'
+        handleSearch={handleSearchUsers}
         headerButtons={headerButtons}
         tableHeaders={tableHeaders}
         rowActions={rowActions}
         paginator={paginator}
         setPaginator={setPaginator}
+        isLoading={isGetUsersLoading}
       />
       <Dialog
         visible={showCreateDialog}

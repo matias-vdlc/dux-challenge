@@ -24,8 +24,8 @@ export const tableHeaders = [
 ]
 
 export const status = [
-  { status: 'Activo', value: 'ACTIVO' },
-  { status: 'Inactivo', value: 'INACTIVO' },
+  { estado: 'Activo', value: 'ACTIVO' },
+  { estado: 'Inactivo', value: 'INACTIVO' },
 ]
 
 export const paginatorDefaulState = {

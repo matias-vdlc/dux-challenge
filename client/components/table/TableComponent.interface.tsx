@@ -1,10 +1,10 @@
 export type TableHeaders = {
-    field: string
-    header: string
-    sortable?: boolean
-    className: string
-    style?: Record<string, any>
-  }
+  field: string
+  header: string
+  sortable?: boolean
+  className: string
+  style?: Record<string, any>
+}
 
 export type HeaderButtons = {
   label: string
@@ -13,7 +13,7 @@ export type HeaderButtons = {
   onClick: () => void
 }
 
-export type RowActions =  {
+export type RowActions = {
   'aria-label': string
   icon: string
   className: string
@@ -36,4 +36,6 @@ export type TableComponentProps = {
   rowActions?: RowActions[]
   paginator: Page
   setPaginator: (event: any) => void
+  isLoading?: boolean
+  handleSearch: (params: any) => void
 }

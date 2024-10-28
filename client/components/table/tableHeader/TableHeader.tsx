@@ -1,12 +1,12 @@
-import { FC, useState } from 'react'
+import { FC, useRef, useState } from 'react'
 import { Button } from 'primereact/button'
 import { IconField } from 'primereact/iconfield'
 import { InputIcon } from 'primereact/inputicon'
 import { InputText } from 'primereact/inputtext'
-
 import { TableHeaderProps, HeaderActionsType } from './TableHeader.interface'
 import { Dropdown } from 'primereact/dropdown'
 import { status } from '../../../views/users/constants'
+import { debounce } from '../../../helpers'
 
 export const TableHeader: FC<TableHeaderProps> = ({
   title,
@@ -15,22 +15,32 @@ export const TableHeader: FC<TableHeaderProps> = ({
 }) => {
   const [searchValue, setSearchValue] = useState('')
   const [statusValue, setStatusValue] = useState('')
+  const debounceRef = useRef<NodeJS.Timeout>()
 
-  const handleInputChange = (value: string) => {
+  const debouncedSearch = debounce(
+    debounceRef,
+    (key, cleanedValue) => onSearch({ key, value: cleanedValue }),
+    300,
+  )
+
+  const handleInputChange = (value: string, key: string) => {
     // TODO: add input validation and debounce
+    const cleannedValue = value.trim().toUpperCase()
+    setStatusValue('')
     setSearchValue(value)
-    onSearch(value)
+    debouncedSearch(cleannedValue, key)
   }
 
-  const handleDropdownChange = (value: string) => {
+  const handleDropdownChange = (value: string, key: string) => {
+    setSearchValue('')
     setStatusValue(value)
-    onSearch(value)
+    onSearch({ key, value })
   }
 
   const handleClearFilters = () => {
     setSearchValue('')
     setStatusValue('')
-    onSearch('')
+    onSearch({})
   }
 
   return (
@@ -56,16 +66,19 @@ export const TableHeader: FC<TableHeaderProps> = ({
               placeholder='Buscar'
               className='w-full border-round-md'
               onInput={(e) =>
-                handleInputChange((e.target as HTMLInputElement).value)
+                handleInputChange(
+                  (e.target as HTMLInputElement).value,
+                  'usuario',
+                )
               }
               value={searchValue}
             />
           </IconField>
           <Dropdown
             value={statusValue}
-            onChange={(e) => handleDropdownChange(e.value)}
+            onChange={(e) => handleDropdownChange(e.value, 'estado')}
             options={status}
-            optionLabel='status'
+            optionLabel='estado'
             placeholder='Selecciona el Estado'
             className='w-full border-round-md'
           />
@@ -82,7 +95,7 @@ export const TableHeader: FC<TableHeaderProps> = ({
         <div className='flex gap-2'>
           <Button
             icon='pi pi-filter-fill '
-            className='p-button-secondary '
+            className={`p-button-${!searchValue && !statusValue ? 'secondary' : 'primary'}`}
             onClick={handleClearFilters}
             tooltip='Limpiar Filtros'
             tooltipOptions={{ position: 'bottom' }}

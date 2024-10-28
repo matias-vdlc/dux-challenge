@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { DataTable } from 'primereact/datatable'
 import { Column } from 'primereact/column'
 import { Paginator, PaginatorPageChangeEvent } from 'primereact/paginator'
@@ -14,8 +14,11 @@ export const TableComponent: FC<TableComponentProps> = ({
   rowActions = [],
   paginator,
   setPaginator,
+  isLoading = false,
+  handleSearch = () => {},
 }) => {
   const [globalFilter, setGlobalFilter] = useState<string | null>(null)
+  const [content, setContent] = useState(data)
 
   const onPageChange = (event: PaginatorPageChangeEvent) => {
     setPaginator(
@@ -51,6 +54,20 @@ export const TableComponent: FC<TableComponentProps> = ({
     )
   }
 
+  const handleSearchFilters = (params: { [key: string]: string }) => {
+    const { key, value } = params
+    setGlobalFilter(value)
+    handleSearch({
+      searchIn: key,
+      query: value,
+      sector: 2000,
+    })
+  }
+
+  useEffect(() => {
+    setContent(data)
+  }, [data])
+
   return (
     <div
       className='px-4 py-3 flex flex-column  justify-content-between gap-4'
@@ -60,18 +77,17 @@ export const TableComponent: FC<TableComponentProps> = ({
         <TableHeader
           title={title}
           headerActions={headerButtons}
-          onSearch={setGlobalFilter}
+          onSearch={handleSearchFilters}
         />
 
         <DataTable
-          value={data}
+          value={content}
           dataKey='id'
-          globalFilterFields={['usuario', 'estado']}
-          globalFilter={globalFilter}
           className='p-datatable-sm'
           removableSort
           scrollable
           scrollHeight='600px'
+          loading={isLoading}
         >
           {!!tableHeaders.length &&
             tableHeaders.map((th, index) => (
