@@ -6,14 +6,10 @@ import { InputText } from 'primereact/inputtext'
 
 import { TableHeaderProps, HeaderActionsType } from './TableHeader.interface'
 import { Dropdown } from 'primereact/dropdown'
-
-const status = [
-  { status: 'Activo', value: 'ACTIVO' },
-  { status: 'Inactivo', value: 'INACTIVO' },
-]
+import { status } from '../../../views/users/constants'
 
 export const TableHeader: FC<TableHeaderProps> = ({
-  header,
+  title,
   headerActions = [],
   onSearch = () => {},
 }) => {
@@ -40,7 +36,7 @@ export const TableHeader: FC<TableHeaderProps> = ({
   return (
     <div>
       <div className='flex align-items-center justify-content-between mb-4'>
-        <div className='text-3xl font-bold'>{header}</div>
+        <div className='text-3xl font-bold'>{title}</div>
         {!!headerActions.length &&
           headerActions.map((action: HeaderActionsType) => (
             <Button
@@ -74,7 +70,9 @@ export const TableHeader: FC<TableHeaderProps> = ({
             className='w-full border-round-md'
           />
           <Dropdown
+            value={[]}
             onChange={() => {}}
+            disabled
             optionLabel='name'
             placeholder='Selecciona el Sector'
             className='w-full border-round-md'

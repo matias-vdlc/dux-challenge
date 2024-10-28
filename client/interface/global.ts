@@ -1,6 +1,6 @@
 export type User = {
   id: number
-  name: string
-  state: 'ACTIVO' | 'INACTIVO'
+  usuario: string
+  estado: 'ACTIVO' | 'INACTIVO'
   sector: number
 }

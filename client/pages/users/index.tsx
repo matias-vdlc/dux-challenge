@@ -4,8 +4,9 @@ import { fetchUsers } from '../../api'
 import { User } from '../../interface'
 import { SpinnerComponent } from '../../components/spinnerComponent'
 
+// ssr fetch call
 export const getServerSideProps: GetServerSideProps = async () => {
-  const users: User[] = await fetchUsers(2000, 5, 1)
+  const users: User[] = await fetchUsers()
   return { props: { users } }
 }
 

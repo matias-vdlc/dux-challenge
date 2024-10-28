@@ -1,5 +1,5 @@
 export type TableHeaderProps = {
-  header: string
+  title: string
   headerActions: HeaderActionsType[]
   onSearch: (value: string) => void
 }
