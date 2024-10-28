@@ -27,3 +27,11 @@ export const status = [
   { status: 'Activo', value: 'ACTIVO' },
   { status: 'Inactivo', value: 'INACTIVO' },
 ]
+
+export const paginatorDefaulState = {
+  first: 1,
+  rows: 5,
+  page: 1,
+  pageCount: 0,
+  totalRecords: 100,
+}

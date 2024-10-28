@@ -13,22 +13,15 @@ import { Button } from 'primereact/button'
 import { colors } from '../../styles/colors'
 import { InputText } from 'primereact/inputtext'
 import { Dropdown } from 'primereact/dropdown'
-import { status } from './constants'
+import { status, paginatorDefaulState } from './constants'
 
 export const UsersTable = ({ users }: { users: User[] }) => {
   const [data, setData] = useState<User[]>(users)
   const [selectedUser, setSelectedUser] = useState<User | null>(null)
-  const [paginator, setPaginator] = useState({
-    first: 1,
-    rows: 5,
-    page: 1,
-    pageCount: 0,
-    totalRecords: 100,
-  })
+  const [paginator, setPaginator] = useState(paginatorDefaulState)
   const [showDeleteDialog, setShowDeleteDialog] = useState(false)
   const [showCreateDialog, setShowCreateDialog] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
-  // const [submitted, setSubmitted] = useState(false)
   const [isFormValid, setIsFormValid] = useState(true)
   const initialUserRef = useRef<User | null>(null)
 
@@ -109,10 +102,16 @@ export const UsersTable = ({ users }: { users: User[] }) => {
       userCreateHandler(selectedUser)
     }
     setShowCreateDialog(false)
+    updateTableData()
   }
 
-  const onInputChange = (value, name) => {
-    setSelectedUser({ ...selectedUser, [name]: value })
+  const onInputChange = (value: string, name: keyof User) => {
+    setSelectedUser({ ...selectedUser, [name]: value } as User)
+  }
+
+  const updateTableData = () => {
+    userGetHandler({ sector: 2000, page: 1, limit: 5 })
+    setPaginator(paginatorDefaulState)
   }
 
   // TODO: add user
@@ -195,7 +194,6 @@ export const UsersTable = ({ users }: { users: User[] }) => {
   // TODO: validate paginator
   useEffect(() => {
     if (!paginator.page || !paginator.rows) return
-    if (paginator.first === 1) return
     const params = {
       sector: 2000,
       page: paginator.page,
@@ -211,10 +209,11 @@ export const UsersTable = ({ users }: { users: User[] }) => {
     }
   }, [updatedUserData])
 
-  useEffect(() => {
-    if (userCreateLoading || userUpdateLoading || userDeleteLoading) return
-    userGetHandler({ sector: 2000, page: 1, limit: 5 })
-  }, [userDeleteLoading, userCreateLoading, userUpdateLoading])
+  // useEffect(() => {
+  //   if (userCreateLoading || userUpdateLoading || userDeleteLoading) return
+  //   userGetHandler({ sector: 2000, page: 1, limit: 5 })
+  //   setPaginator(paginatorDefaulState)
+  // }, [userDeleteLoading, userCreateLoading, userUpdateLoading])
 
   return (
     <>
@@ -226,7 +225,6 @@ export const UsersTable = ({ users }: { users: User[] }) => {
         rowActions={rowActions}
         paginator={paginator}
         setPaginator={setPaginator}
-        
       />
       <Dialog
         visible={showCreateDialog}
