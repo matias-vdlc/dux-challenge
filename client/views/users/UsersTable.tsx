@@ -120,8 +120,8 @@ export const UsersTable = ({ users }: { users: User[] }) => {
     if (name === 'usuario') {
       let cleanedValue = (value as string).trim()
 
-      if (cleanedValue.length > 50) {
-        cleanedValue = cleanedValue.slice(0, 50)
+      if (cleanedValue.length > 30) {
+        cleanedValue = cleanedValue.slice(0, 30)
       }
 
       setSelectedUser(
@@ -173,6 +173,12 @@ export const UsersTable = ({ users }: { users: User[] }) => {
     },
   ]
 
+  const deleteUserDialogHeader = (
+    <div className='flex align-items-center justify-content-between p-4  border-round-top-md'>
+      <div className='font-bold text-xl'>Eliminar usuario</div>
+    </div>
+  )
+
   const deleteUserDialogFooter = (
     <div className='flex align-items-center justify-content-end gap-2'>
       <Button
@@ -205,7 +211,7 @@ export const UsersTable = ({ users }: { users: User[] }) => {
       </div>
       <div className='flex gap-3'>
         <i className='pi pi-cog text-xs' />
-        <i className='pi pi-minus text-xs' />
+        <i className='pi pi-minus text-xs cursor-pointer' onClick={() => setShowCreateDialog(false)} />
       </div>
     </div>
   )
@@ -341,8 +347,8 @@ export const UsersTable = ({ users }: { users: User[] }) => {
       </Dialog>
       <Dialog
         visible={showDeleteDialog}
-        style={{ width: '450px' }}
-        header='Eliminar usuario'
+        style={{ width: '450px'}}
+        header={deleteUserDialogHeader}
         modal
         footer={deleteUserDialogFooter}
         onHide={hideDeleteUserDialog}

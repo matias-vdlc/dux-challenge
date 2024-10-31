@@ -3,7 +3,8 @@ import { colors } from "../../styles/colors"
 export const tableHeaders = [
   {
     field: 'id',
-    header: 'ID',
+    header: 'id',
+    sortable: true,
     className: 'text-sm line-height-1 text-color-secondary',
   },
   {
@@ -24,6 +25,7 @@ export const tableHeaders = [
   {
     field: 'sector',
     header: 'Sector',
+    sortable: true,
     className: 'text-sm line-height-1 text-color-secondary capitalize',
   },
 ]
