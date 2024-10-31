@@ -18,7 +18,6 @@ export const TableComponent: FC<TableComponentProps> = ({
   handleSearch = () => {},
   handleUpdateData = () => {},
 }) => {
-  const [globalFilter, setGlobalFilter] = useState<string | null>(null)
   const [content, setContent] = useState(data)
 
   const onPageChange = (event: PaginatorPageChangeEvent) => {
@@ -51,7 +50,6 @@ export const TableComponent: FC<TableComponentProps> = ({
 
   const handleSearchFilters = (params: { [key: string]: string }) => {
     const { key, value } = params
-    setGlobalFilter(value)
     if (!value) {
       handleUpdateData({})
       return

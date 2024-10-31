@@ -24,7 +24,6 @@ export const TableHeader: FC<TableHeaderProps> = ({
   )
 
   const handleInputChange = (value: string, key: string) => {
-    // TODO: add input validation and debounce
     const cleannedValue = value.trim().toUpperCase()
     setStatusValue('')
     setSearchValue(value)

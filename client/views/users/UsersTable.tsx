@@ -113,7 +113,7 @@ export const UsersTable = ({ users }: { users: User[] }) => {
 
   const onInputChange = (value: string | number, name: keyof User) => {
     if (name === 'usuario') {
-      let cleanedValue = (value as string).trim()
+      let cleanedValue = (value as string).replace(/\s+/g, ' ')
 
       if (cleanedValue.length > 30) {
         cleanedValue = cleanedValue.slice(0, 30)
@@ -156,7 +156,6 @@ export const UsersTable = ({ users }: { users: User[] }) => {
     },
   ]
 
-  // TODO: add actions edit and delete
   const rowActions = [
     {
       ['aria-label']: 'Editar',
@@ -246,7 +245,6 @@ export const UsersTable = ({ users }: { users: User[] }) => {
     </div>
   )
 
-  // TODO: validate paginator
   useEffect(() => {
     const params = {
       sector: 2000,
@@ -303,6 +301,7 @@ export const UsersTable = ({ users }: { users: User[] }) => {
               autoFocus
               min={0}
               max={999999}
+              disabled={isEdit && !!selectedUser}
             />
           </div>
           <div className='field'>
