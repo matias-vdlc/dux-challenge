@@ -1,14 +1,19 @@
+import { colors } from "../../styles/colors"
+
 export const tableHeaders = [
   {
     field: 'id',
     header: 'ID',
-    className: 'text-sm line-height-1 text-color-secondary capitalize',
+    className: 'text-sm line-height-1 text-color-secondary',
   },
   {
     field: 'usuario',
     header: 'Usuario',
     sortable: true,
-    className: 'text-sm text-primary font-bold underline line-height-1',
+    className: 'text-sm line-height-1 font-bold underline ',
+    style: {
+      color: colors.PRIMARY,
+    },
   },
   {
     field: 'estado',

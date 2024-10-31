@@ -102,6 +102,7 @@ export const TableComponent: FC<TableComponentProps> = ({
                 header={th.header}
                 sortable={th.sortable}
                 className={th.className}
+                style={th.style}
               />
             ))}
           {!!rowActions.length && (

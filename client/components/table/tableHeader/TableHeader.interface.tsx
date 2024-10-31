@@ -7,6 +7,7 @@ export type TableHeaderProps = {
 export type HeaderActionsType = {
   label: string
   icon: string
-  className: string
+  className?: string
   onClick: () => void
+  style?: Record<string, any>
 }

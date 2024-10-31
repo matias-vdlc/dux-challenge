@@ -8,6 +8,13 @@ body {
   padding: 0;
 }
 
+:root {
+  --text-color: #374151;
+  --text-color-secondary: #4b5563;
+  --border-radius: 6px;
+  --primary-color: #0763E7;
+}
+
 /* Sidebar styles */
 .p-megamenu .p-menuitem-icon {
   color: white;
@@ -20,9 +27,14 @@ body {
   width: 65px;
 }
 
-:root {
-  --text-color: #374151;
-  --text-color-secondary: #4b5563;
-  --border-radius: 6px;
-  --primary-color: #0763e7;
+.p-dialog-header {
+  padding: 0;
+}
+
+.p-dialog-header-icons {
+  display: none;
+}
+
+.p-column-title {
+  color: #374151;
 }

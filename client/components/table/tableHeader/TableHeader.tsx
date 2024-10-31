@@ -55,6 +55,7 @@ export const TableHeader: FC<TableHeaderProps> = ({
               icon={action.icon}
               className={action.className}
               onClick={action.onClick}
+              style={action.style}
             />
           ))}
       </div>
@@ -94,14 +95,14 @@ export const TableHeader: FC<TableHeaderProps> = ({
         </div>
         <div className='flex gap-2'>
           <Button
-            icon='pi pi-filter-fill '
+            icon='pi pi-filter-fill text-sm'
             className={`p-button-${!searchValue && !statusValue ? 'secondary' : 'primary'}`}
             onClick={handleClearFilters}
             tooltip='Limpiar Filtros'
             tooltipOptions={{ position: 'bottom' }}
           />
           <Button
-            icon='pi pi-sliders-v'
+            icon='pi pi-sliders-v text-sm'
             className='p-button-secondary'
             onClick={() => {}}
             tooltip='Opciones'

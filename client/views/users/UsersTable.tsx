@@ -147,13 +147,13 @@ export const UsersTable = ({ users }: { users: User[] }) => {
     setPaginator(paginatorDefaulState)
   }
 
-  // TODO: add user
   const headerButtons = [
     {
       label: 'Nuevo Usuario',
-      icon: 'pi pi-plus',
-      className: 'gap-2 p-2 border-round-md',
+      icon: 'pi pi-plus text-sm',
+      className: 'gap-2 p-2 border-round-md font-bold text-sm',
       onClick: handleCreateUserAction,
+      style: { backgroundColor: colors.ADD_BUTTON, borderColor: colors.ADD_BUTTON, height: '40px' },
     },
   ]
 
@@ -192,8 +192,21 @@ export const UsersTable = ({ users }: { users: User[] }) => {
   )
 
   const headerCreateDialog = (
-    <div className='flex align-items-center justify-content-start bg-primary h-3rem m-0'>
-      <div className='font-bold'>{isEdit ? 'Editar usuario' : 'Usuario'}</div>
+    <div
+      className='flex align-items-center justify-content-between px-4 py-3 m-0 border-round-top-md'
+      style={{
+        backgroundColor: colors.PRIMARY,
+        color: 'white',
+        height: '50px',
+      }}
+    >
+      <div className='font-bold text-xl'>
+        {isEdit ? 'Editar usuario' : 'Usuario'}
+      </div>
+      <div className='flex gap-3'>
+        <i className='pi pi-cog text-xs' />
+        <i className='pi pi-minus text-xs' />
+      </div>
     </div>
   )
 
@@ -205,6 +218,7 @@ export const UsersTable = ({ users }: { users: User[] }) => {
         className='border-round-md'
         style={{
           backgroundColor: colors.BUTTON,
+          borderColor: colors.BUTTON,
         }}
         autoFocus
         raised
@@ -239,18 +253,20 @@ export const UsersTable = ({ users }: { users: User[] }) => {
 
   return (
     <>
-      <Table
-        data={updatedUserData || users}
-        title='Usuarios'
-        handleSearch={handleSearchUsers}
-        headerButtons={headerButtons}
-        tableHeaders={tableHeaders}
-        rowActions={rowActions}
-        paginator={paginator}
-        setPaginator={setPaginator}
-        isLoading={isGetUsersLoading}
-        handleUpdateData={updateTableData}
-      />
+      <Suspense fallback={<div>Cargando...</div>}>
+        <Table
+          data={updatedUserData || users}
+          title='Usuarios'
+          handleSearch={handleSearchUsers}
+          headerButtons={headerButtons}
+          tableHeaders={tableHeaders}
+          rowActions={rowActions}
+          paginator={paginator}
+          setPaginator={setPaginator}
+          isLoading={isGetUsersLoading}
+          handleUpdateData={updateTableData}
+        />
+      </Suspense>
       <Dialog
         visible={showCreateDialog}
         modal
@@ -259,10 +275,11 @@ export const UsersTable = ({ users }: { users: User[] }) => {
         style={{ width: '1100px' }}
         onHide={() => setShowCreateDialog(false)}
         className='p-fluid'
+        draggable={false}
       >
-        <div className='flex flex-column gap-4'>
+        <div className='flex flex-column gap-4 pt-4'>
           <div className='field'>
-            <label htmlFor='id' className='mb-2 font-semibold'>
+            <label htmlFor='id' className='mb-2 font-semibold text-lg'>
               id
             </label>
             <InputNumber
@@ -279,8 +296,8 @@ export const UsersTable = ({ users }: { users: User[] }) => {
             />
           </div>
           <div className='field'>
-            <label htmlFor='usuario' className='mb-2 font-semibold'>
-              Nombre
+            <label htmlFor='usuario' className='mb-2 font-semibold text-lg'>
+              Nombre:
             </label>
             <InputText
               id='usuario'
@@ -291,8 +308,8 @@ export const UsersTable = ({ users }: { users: User[] }) => {
             />
           </div>
           <div className='field'>
-            <label htmlFor='estado' className='mb-2 font-semibold'>
-              Estado
+            <label htmlFor='estado' className='mb-2 font-semibold text-lg'>
+              Estado:
             </label>
             <Dropdown
               value={selectedUser?.estado || ''}
@@ -304,8 +321,8 @@ export const UsersTable = ({ users }: { users: User[] }) => {
             />
           </div>
           <div className='field'>
-            <label htmlFor='sector' className='mb-2 font-semibold'>
-              Sector
+            <label htmlFor='sector' className='mb-2 font-semibold text-lg'>
+              Sector:
             </label>
             <InputNumber
               id='sector'
@@ -322,7 +339,6 @@ export const UsersTable = ({ users }: { users: User[] }) => {
           </div>
         </div>
       </Dialog>
-
       <Dialog
         visible={showDeleteDialog}
         style={{ width: '450px' }}
@@ -330,6 +346,7 @@ export const UsersTable = ({ users }: { users: User[] }) => {
         modal
         footer={deleteUserDialogFooter}
         onHide={hideDeleteUserDialog}
+        draggable={false}
       >
         <div className='flex align-items-center justify-content-center gap-2'>
           <i

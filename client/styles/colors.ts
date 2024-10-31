@@ -5,4 +5,5 @@ export const colors = {
   BACKGROUND: '#F2F2F2',
   BUTTON: '#2563EB',
   SIDEBAR: '#2D3E50',
+  ADD_BUTTON: '#3B82F6',
 }
