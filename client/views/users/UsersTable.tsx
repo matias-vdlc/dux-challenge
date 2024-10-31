@@ -56,6 +56,7 @@ export const UsersTable = ({ users }: { users: User[] }) => {
   const handleDeleteUser = () => {
     if (!selectedUser) return
     userDeleteHandler(selectedUser.id)
+    updateTableData()
     hideDeleteUserDialog()
   }
 
@@ -83,35 +84,25 @@ export const UsersTable = ({ users }: { users: User[] }) => {
   const handleSubmitModal = () => {
     if (!selectedUser) return
 
-    const cleanedUser = {
+    const capitalizeUser = {
       ...selectedUser,
-      usuario: selectedUser.usuario.toUpperCase(),
+      usuario: selectedUser.usuario?.toUpperCase(),
     }
 
     if (isEdit) {
-      const updatedFields: Partial<User> = {}
-
-      // Compare each field to find changes
-      Object.keys(cleanedUser).forEach((key) => {
-        const k = key as keyof User
-        if (cleanedUser[k] !== initialUserRef.current?.[k]) {
-          updatedFields[k] = cleanedUser[k]
-        }
-      })
-
-      if (Object.keys(updatedFields).length > 0) {
-        userUpdateHandler(initialUserRef.current?.id!, updatedFields)
-      }
+      userUpdateHandler(initialUserRef.current?.id!, capitalizeUser)
       setIsFormValid(true)
       setIsEdit(false)
     } else {
       if (isFormIncomplete()) {
+        // TODO: add error mesage or wrong input
         setIsFormValid(false)
         return
       }
 
-      userCreateHandler(cleanedUser)
+      userCreateHandler(capitalizeUser)
     }
+
     setShowCreateDialog(false)
     updateTableData()
   }
@@ -153,7 +144,11 @@ export const UsersTable = ({ users }: { users: User[] }) => {
       icon: 'pi pi-plus text-sm',
       className: 'gap-2 p-2 border-round-md font-bold text-sm',
       onClick: handleCreateUserAction,
-      style: { backgroundColor: colors.ADD_BUTTON, borderColor: colors.ADD_BUTTON, height: '40px' },
+      style: {
+        backgroundColor: colors.ADD_BUTTON,
+        borderColor: colors.ADD_BUTTON,
+        height: '40px',
+      },
     },
   ]
 
@@ -211,7 +206,10 @@ export const UsersTable = ({ users }: { users: User[] }) => {
       </div>
       <div className='flex gap-3'>
         <i className='pi pi-cog text-xs' />
-        <i className='pi pi-minus text-xs cursor-pointer' onClick={() => setShowCreateDialog(false)} />
+        <i
+          className='pi pi-minus text-xs cursor-pointer'
+          onClick={() => setShowCreateDialog(false)}
+        />
       </div>
     </div>
   )
@@ -347,7 +345,7 @@ export const UsersTable = ({ users }: { users: User[] }) => {
       </Dialog>
       <Dialog
         visible={showDeleteDialog}
-        style={{ width: '450px'}}
+        style={{ width: '450px' }}
         header={deleteUserDialogHeader}
         modal
         footer={deleteUserDialogFooter}
