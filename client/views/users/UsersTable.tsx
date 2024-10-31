@@ -42,6 +42,7 @@ export const UsersTable = ({ users }: { users: User[] }) => {
     isLoading: isGetUsersLoading,
     totalCount: usersTotalCount,
     isSuccess: usersIsSuccess,
+    isSerachSuccess,
   } = useGetUsers()
   const { handler: userUpdateHandler } = useUpdateUser()
   const { handler: userDeleteHandler } = useDeleteUser()
@@ -258,7 +259,7 @@ export const UsersTable = ({ users }: { users: User[] }) => {
   useEffect(() => {
     setUsersData(updatedUserData || [])
     setPaginator((prev) => ({ ...prev, totalRecords: usersTotalCount || 100 }))
-  }, [usersIsSuccess])
+  }, [usersIsSuccess, isSerachSuccess])
 
   return (
     <>

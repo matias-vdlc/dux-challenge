@@ -8,7 +8,7 @@ export const useGetUsers = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<Error | null>(null)
   const [totalCount, setTotalCount] = useState<number | null>(null)
-  const [isSerachLoading, setIsSerachLoading] = useState(false)
+  const [isSerachSuccess, setIsSerachSuccess] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
 
   const handler = async ({
@@ -60,22 +60,23 @@ export const useGetUsers = () => {
       [searchIn]: query,
     }
 
-    setIsSerachLoading(true)
+    setIsSerachSuccess(false)
 
     const { data: responseData, error: responseError } = await getData<
       User[],
       Partial<TableParams>
     >('/', params)
 
-    setIsSerachLoading(false)
-
+    
     if (responseError) {
       setError(responseError)
       return
     }
-
+    
     if (!responseData) return
-    setData(responseData)
+    const formattedData = usersTableDataDto(responseData)
+      setData(formattedData)
+    setIsSerachSuccess(true)
   }
 
   return {
@@ -86,5 +87,6 @@ export const useGetUsers = () => {
     error,
     totalCount,
     isSuccess,
+    isSerachSuccess,
   }
 }
