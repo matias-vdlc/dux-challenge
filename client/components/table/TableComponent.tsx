@@ -4,7 +4,7 @@ import { Column } from 'primereact/column'
 import { Paginator, PaginatorPageChangeEvent } from 'primereact/paginator'
 import { TableHeader } from './tableHeader'
 import { Button } from 'primereact/button'
-import { TableComponentProps } from './TableComponent.interface'
+import { Page, TableComponentProps } from './TableComponent.interface'
 
 export const TableComponent: FC<TableComponentProps> = ({
   data,
@@ -23,17 +23,11 @@ export const TableComponent: FC<TableComponentProps> = ({
 
   const onPageChange = (event: PaginatorPageChangeEvent) => {
     setPaginator(
-      (prev: {
-        first: number
-        rows: number
-        page: number
-        pageCount: number
-        totalRecords: number
-      }) => ({
+      (prev: Page) => ({
         ...prev,
         first: event.first,
         rows: event.rows,
-        page: event.page,
+        page: event.page + 1,
       }),
     )
   }

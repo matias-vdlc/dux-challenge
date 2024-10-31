@@ -38,7 +38,7 @@ export const status = [
 export const paginatorDefaulState = {
   first: 0,
   rows: 10,
-  page: 1,
+  page: 0,
   pageCount: 0,
   totalRecords: 100,
 }

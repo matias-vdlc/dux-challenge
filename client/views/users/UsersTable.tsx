@@ -46,9 +46,6 @@ export const UsersTable = ({ users }: { users: User[] }) => {
   const { handler: userUpdateHandler } = useUpdateUser()
   const { handler: userDeleteHandler } = useDeleteUser()
 
-  // TODO: use total count on paginator
-  console.log({ usersTotalCount })
-
   const handleDeleteUserAction = (user: User) => {
     setShowDeleteDialog(true)
     setSelectedUser(user)
@@ -140,7 +137,7 @@ export const UsersTable = ({ users }: { users: User[] }) => {
   }
 
   const updateTableData = () => {
-    userGetHandler({ sector: 2000, page: 1, limit: 5 })
+    userGetHandler({ sector: 2000, page: 1, limit: 10 })
     setPaginator(paginatorDefaulState)
   }
 
@@ -262,8 +259,6 @@ export const UsersTable = ({ users }: { users: User[] }) => {
     setUsersData(updatedUserData || [])
     setPaginator((prev) => ({ ...prev, totalRecords: usersTotalCount || 100 }))
   }, [usersIsSuccess])
-
-  console.log({ paginator })
 
   return (
     <>
