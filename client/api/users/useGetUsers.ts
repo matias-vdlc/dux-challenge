@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { getData } from '../genericsCrud'
 import { User, TableParams } from './users.interface'
+import { usersTableDataDto } from '../dto'
 
 export const useGetUsers = () => {
   const [data, setData] = useState<User[] | null>(null)
@@ -38,7 +39,8 @@ export const useGetUsers = () => {
     }
 
     if (responseData) {
-      setData(responseData)
+      const formattedData = usersTableDataDto(responseData)
+      setData(formattedData)
       setTotalCount(totalCount!)
       setIsSuccess(true)
     }

@@ -93,6 +93,7 @@ export const TableComponent: FC<TableComponentProps> = ({
           scrollable
           scrollHeight='600px'
           loading={isLoading}
+          // rows={paginator?.rows}
         >
           {!!tableHeaders.length &&
             tableHeaders.map((th, index) => (
