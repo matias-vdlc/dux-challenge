@@ -120,7 +120,7 @@ export const TableComponent: FC<TableComponentProps> = ({
           first={paginator?.first}
           rows={paginator?.rows}
           totalRecords={paginator?.totalRecords}
-          rowsPerPageOptions={[5, 10, 20]}
+          rowsPerPageOptions={[10, 25, 50]}
           onPageChange={onPageChange}
         />
       </div>

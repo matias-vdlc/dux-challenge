@@ -1,4 +1,4 @@
-import { colors } from "../../styles/colors"
+import { colors } from '../../styles/colors'
 
 export const tableHeaders = [
   {
@@ -36,8 +36,8 @@ export const status = [
 ]
 
 export const paginatorDefaulState = {
-  first: 1,
-  rows: 5,
+  first: 0,
+  rows: 10,
   page: 1,
   pageCount: 0,
   totalRecords: 100,

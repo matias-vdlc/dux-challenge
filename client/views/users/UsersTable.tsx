@@ -25,6 +25,7 @@ const Table = lazy(() =>
 )
 
 export const UsersTable = ({ users }: { users: User[] }) => {
+  const [usersData, setUsersData] = useState<User[]>(users)
   const [selectedUser, setSelectedUser] = useState<User | null>(null)
   const [paginator, setPaginator] = useState(paginatorDefaulState)
   const [showDeleteDialog, setShowDeleteDialog] = useState(false)
@@ -39,9 +40,14 @@ export const UsersTable = ({ users }: { users: User[] }) => {
     handleSearch: handleSearchUsers,
     data: updatedUserData,
     isLoading: isGetUsersLoading,
+    totalCount: usersTotalCount,
+    isSuccess: usersIsSuccess,
   } = useGetUsers()
   const { handler: userUpdateHandler } = useUpdateUser()
   const { handler: userDeleteHandler } = useDeleteUser()
+
+  // TODO: use total count on paginator
+  console.log({ usersTotalCount })
 
   const handleDeleteUserAction = (user: User) => {
     setShowDeleteDialog(true)
@@ -242,11 +248,8 @@ export const UsersTable = ({ users }: { users: User[] }) => {
     </div>
   )
 
-  const validateId = (value: string) => {}
-
   // TODO: validate paginator
   useEffect(() => {
-    if (!paginator.page || !paginator.rows) return
     const params = {
       sector: 2000,
       page: paginator.page,
@@ -255,11 +258,18 @@ export const UsersTable = ({ users }: { users: User[] }) => {
     userGetHandler(params)
   }, [paginator.page, paginator.rows, paginator.first])
 
+  useEffect(() => {
+    setUsersData(updatedUserData || [])
+    setPaginator((prev) => ({ ...prev, totalRecords: usersTotalCount || 100 }))
+  }, [usersIsSuccess])
+
+  console.log({ paginator })
+
   return (
     <>
       <Suspense fallback={<div>Cargando...</div>}>
         <Table
-          data={updatedUserData || users}
+          data={usersData}
           title='Usuarios'
           handleSearch={handleSearchUsers}
           headerButtons={headerButtons}
